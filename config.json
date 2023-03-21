@@ -10,6 +10,6 @@
         "id_num" : "guest id_card_number",
         "phone_num" : "guest phone number",
         "addr" : "guest institution",
-        "home_addr" : "guest address"
+        "home_addr" : "guest addr"
     }
 }
