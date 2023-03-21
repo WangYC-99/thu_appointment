@@ -5,11 +5,19 @@
     "destination" : "des",
     "date" : "year-month-date",
     "reason" : "reason you wanna enter",
-    "guest" : {
-        "name" : "guest name",
+    "guests" : 
+    [{
+        "name" : "guest 1 name",
         "id_num" : "guest id_card_number",
         "phone_num" : "guest phone number",
         "addr" : "guest institution",
         "home_addr" : "guest addr"
-    }
+    },
+    {
+        "name" : "guest n name" ,
+        "id_num" : "guest id_card_number",
+        "phone_num" : "guest phone number",
+        "addr" : "guest institution",
+        "home_addr" : "guest addr"
+    }]
 }

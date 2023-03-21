@@ -3,8 +3,7 @@ import json
 import time
 
 info_f = open('config.json', 'r')
-info_j = info_f.read()
-info = json.loads(info_j)
+info = json.load(info_f)
 
 driver = webdriver.Chrome()
 driver.get('https://thos.tsinghua.edu.cn/fp/view?m=fp#from=hall&serveID=16415057158070272&act=fp/serveapply')
@@ -54,28 +53,33 @@ driver.find_element_by_name('申请人联系电话').send_keys(info['phone'])
 driver.find_element_by_id('XNDD').send_keys(info['destination'])
 driver.find_element_by_id('KSSJ').send_keys(info['date'])
 driver.find_element_by_id('SY').send_keys(info['reason'])
-
-driver.find_element_by_xpath('//*[@id="body_0"]/div[1]/div[7]/div[2]/div[1]/div[1]/div[1]/div/a[1]').click()
-
 driver.switch_to.default_content()
 
-while(True):
-    try:
-        driver.find_element_by_id('RYXM').send_keys(info['guest']['name'])
-        print('guest form loaded')
-        break
-    except:
-        print('loading guest form')
-        time.sleep(1)
+for each_guest in info['guests']:
+    driver.switch_to_frame('formIframe')
 
-print('guest form filling')
-driver.find_element_by_id('layui-layer1').find_element_by_id('RYSFZH').send_keys(info['guest']['id_num'])
-driver.find_element_by_id('RYSJH').send_keys(info['guest']['phone_num'])
-driver.find_element_by_id('RYSSDW').send_keys(info['guest']['addr'])
-driver.find_element_by_id('RYXWJZD').send_keys(info['guest']['home_addr'])
+    driver.find_element_by_xpath('//*[@id="body_0"]/div[1]/div[7]/div[2]/div[1]/div[1]/div[1]/div/a[1]').click()
 
-print('submit button searching')
-driver.find_element_by_name('ok').click()
+    driver.switch_to.default_content()
+
+    while(True):
+        try:
+            driver.find_element_by_id('RYXM').send_keys(each_guest['name'])
+            print('guest form loaded')
+            break
+        except:
+            print('loading guest form')
+            time.sleep(1)
+
+    print('guest form filling')
+    driver.find_element_by_id('RYSFZH').send_keys(each_guest['id_num'])
+    driver.find_element_by_id('RYSJH').send_keys(each_guest['phone_num'])
+    driver.find_element_by_id('RYSSDW').send_keys(each_guest['institution'])
+    driver.find_element_by_id('RYXWJZD').send_keys(each_guest['home_addr'])
+
+    print('submit button searching')
+    driver.find_element_by_name('ok').click()
+
 driver.switch_to_frame('formIframe')
 driver.find_element_by_xpath('//*[@id="CN_vant"]/div/div/div').click()
 print('done :-) check the information')
